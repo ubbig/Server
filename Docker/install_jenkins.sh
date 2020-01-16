@@ -4,7 +4,7 @@
 
 docker pull jenkins/jenkins:lts
 
-docker run -d  --restart unless-stopped -v /docker_data/jenkins:/var/jenkins_home -p 8080:8080 -p 50000:50000 --name jenkins-master jenkins/jenkins:lts
+docker run -d --restart unless-stopped -v jenkins_home:/var/jenkins_home -p 8080:8080 -p 50000:50000 --name jenkins-master jenkins/jenkins:lts
 
 sudo firewall-cmd --permanent --zone=public --add-port=8080/tcp
 sudo firewall-cmd --permanent --zone=public --add-port=50000/tcp
