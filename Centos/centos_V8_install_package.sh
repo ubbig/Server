@@ -1,5 +1,22 @@
 #!/usr/bin/env bash
 
+# open file limits
+bash -c "sudo cat >> /etc/sysctl.conf << EOF
+fs.file-max = 65535
+fs.inotify.max_user_watches=524288
+EOF"
+
+sysctl -w fs.file-max=65535
+sysctl -w fs.inotify.max_user_watches=524288
+
+bash -c "sudo cat >> /etc/security/limits.conf << EOF
+*          hard    core            unlimited
+*          soft     nproc          65535
+*          hard     nproc          65535
+*          soft     nofile         65535
+*          hard     nofile         65535
+EOF"
+
 # x window
 sudo yum groupinstall -y "Server with GUI"
 sudo systemctl set-default graphical
