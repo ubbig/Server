@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 
 ##
-## Install docker ce on Ubuntu that version over 14.04
-##
-
+## Docker 인스톨
+## Ubuntu 16.04 이상 버전에서 설치
+## 16.04 또는 18.04
+## 
 
 # remove old version docker
 sudo apt-get -y remove docker docker-engine docker.io
