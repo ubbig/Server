@@ -13,7 +13,6 @@ fi
 
 # 중요: 노드에서 swap 파티션을 종료해야 클러스터가 정상동작한다.
 sudo swapoff -a
-sudo vim /etc/fstab
 sudo sed -e '/swap/ s/^#*/#/' -i /etc/fstab
 
 # docker daemon Cgroup 드라이버 설정 - 참고 : https://kubernetes.io/docs/setup/production-environment/container-runtimes/
