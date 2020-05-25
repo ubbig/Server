@@ -7,5 +7,8 @@ sudo ulimit -u 4096   # user process count limit
 
 docker pull sonarqube:7.9.3-community
 
-docker run -d --restart unless-stopped --name sonarqube -p 9000:9000 sonarqube:7.9.3-community
+docker run -d --restart unless-stopped --name sonarqube -p 19000:9000 sonarqube:7.9.3-community
+
+
+
 
