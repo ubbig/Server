@@ -37,3 +37,5 @@ sudo apt -y update && sudo apt -y install docker-ce
 # add group to user
 sudo usermod -aG docker $USER
 
+sudo systemctl restart docker
+
