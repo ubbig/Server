@@ -37,5 +37,7 @@ sudo apt -y update && sudo apt -y install docker-ce
 # add group to user
 sudo usermod -aG docker $USER
 
+sudo chmod 666 /var/run/docker.sock
+
 sudo systemctl restart docker
 
