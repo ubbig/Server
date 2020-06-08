@@ -32,3 +32,8 @@ sudo dnf install -y htop sysstat
 # development
 sudo dnf install -y git svn
 sudo dnf install -y java-1.8.0-openjdk-demo.x86_64 java-11-openjdk-demo.x86_64
+
+# ntp가 centos8에서 chrony로 변경됨
+sudo dnf install -y chrony
+sudo systemctl enable chronyd
+sudo systemctl restart chronyd
