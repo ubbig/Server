@@ -27,6 +27,9 @@ sudo cat > /etc/docker/daemon.json <<EOF
   "storage-driver": "overlay2"
 }
 EOF
+
+#sudo mkdir -p /etc/systemd/system/docker.service.d
+
 sudo systemctl daemon-reload
 sudo systemctl restart docker
 
@@ -52,16 +55,15 @@ sudo systemctl daemon-reload
 sudo systemctl restart kubelet
 
 
-# 클러스터에 노드 추가
-sudo kubeadm init --apiserver-advertise-address=$master_ip_addr
 # 멀티 마스터 설정 옵션
-# sudo kubeadm init --apiserver-advertise-address=192.168.1.180 --control-plane-endpoint
-
+sudo kubeadm init --control-plane-endpoint=$master_ip_addr
+#sudo kubeadm init --control-plane-endpoint=192.168.1.180
 
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
-cat ~/.kube/config
+#cat ~/.kube/config
+
 
 # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/
 # 인증서 이슈
