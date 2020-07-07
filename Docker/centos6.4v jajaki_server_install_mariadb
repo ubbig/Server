@@ -1,0 +1,4 @@
+# 지자기 서버 설치
+# 커널이 오래되어 10.4버전 설치를 지원하지 않아 10.0버전으로 설치
+docker pull mariadb:10.0
+docker run -d --name docker_mariadb -p 3307:3306 -v /home/geomag/mariadb-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=GM1q2w3e4r% mariadb:10.0
