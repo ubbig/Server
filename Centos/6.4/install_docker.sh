@@ -14,3 +14,7 @@ groupadd docker
 # 지자기 실행 계정
 usermod -aG docker mod_oper
 newgrp docker
+
+# 지자기 서버 설치
+docker pull mariadb:10.0
+docker run -d --name docker_mariadb -p 3307:3306 -v /home/geomag/mariadb-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=GM1q2w3e4r% mariadb:10.0
