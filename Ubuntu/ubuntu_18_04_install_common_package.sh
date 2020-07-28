@@ -4,9 +4,9 @@ sudo apt update -y
 sudo apt upgrade -y
 
 sudo apt install -y openssh-server
-#sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak
-#sudo sed -i 's/prohibit\-password/yes/' /etc/ssh/sshd_config
-#sudo service sshd restart
+sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak
+sudo sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin no/' /etc/ssh/sshd_config
+sudo service sshd restart
 
 sudo apt install -y net-tools
 sudo apt install -y vim curl wget
