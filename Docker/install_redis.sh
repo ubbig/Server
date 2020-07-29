@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 docker run -dit --restart unless-stopped --name redis --cpus=1 -p 6379:6379 redis:5.0.8 redis-server --appendonly yes
 

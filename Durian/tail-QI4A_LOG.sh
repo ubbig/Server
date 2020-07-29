@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # QI4A 최근 날짜 로그 조회
 
 ssh selabdev@203.236.196.189 '
