@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 docker pull tomcat:9.0-jdk11-adoptopenjdk-hotspot
 

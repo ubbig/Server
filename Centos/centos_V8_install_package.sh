@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # open file limits
 bash -c "sudo cat >> /etc/sysctl.conf << EOF

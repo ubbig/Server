@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 docker pull mariadb:10.4
 

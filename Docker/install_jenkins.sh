@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # https://github.com/jenkinsci/docker/blob/master/README.md 참고
 
