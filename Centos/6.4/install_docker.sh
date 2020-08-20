@@ -14,3 +14,8 @@ chkconfig --add docker
 # 지자기 실행 계정
 #usermod -aG docker mod_oper
 #newgrp docker
+
+# centos 6.10에서 컨테이너 실행 안되는 문제 발생시 설치경로 삭제 후 재실행한다.
+#service docker stop
+#rm -rf /var/lib/docker
+#service docker start
