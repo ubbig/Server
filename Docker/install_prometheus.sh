@@ -51,4 +51,5 @@ docker run -d \
     -p 9090:9090 \
     --name prometheus \
     -v /docker_data/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml \
+    -e TZ=Asia/Seoul \
     prom/prometheus
