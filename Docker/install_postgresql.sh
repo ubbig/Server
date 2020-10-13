@@ -8,7 +8,7 @@ sudo mv my-postgres.conf /docker_data/postgresql/config
 docker run -d --restart unless-stopped --name postgresql -p 5432:5432 \
 	-v /docker_data/postgresql/data:/var/lib/postgresql/data \
 	-v /docker_data/postgresql/config:/etc/postgresql/config \
-	-e POSTGRES_PASSWORD='qhdkscjfwj!@' \
+	-e POSTGRES_PASSWORD='selab' \
 	--network postgres-net \
 	postgres:13.0 -c 'config_file=/etc/postgresql/config/my-postgres.conf'
 
