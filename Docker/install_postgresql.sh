@@ -1,3 +1,6 @@
+#!/bin/bash
+
+# https://hub.docker.com/_/postgres
 docker pull postgres:13.0
 
 docker network create --driver=bridge postgres-net
