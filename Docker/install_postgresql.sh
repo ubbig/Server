@@ -12,5 +12,5 @@ docker run -d --restart unless-stopped --name postgresql -p 5432:5432 \
 	--network postgres-net \
 	postgres:13.0 -c 'config_file=/etc/postgresql/config/my-postgres.conf'
 
-sudo firewall-cmd --permanent --zone=public --add-port=3306/tcp
+sudo firewall-cmd --permanent --zone=public --add-port=5432/tcp
 sudo firewall-cmd --reload
