@@ -16,7 +16,8 @@ else
   sudo yum install -y ansible
 fi
 
-# knownhost추가
-# ~/hosts 파일에 호스트 추가
+# 인증서 복사
 
-
+sudo bash -c "sudo cat >> /etc/ansible/hosts << EOF
+192.168.100.2
+EOF"
