@@ -18,6 +18,7 @@ fi
 
 # 인증서 복사
 
-sudo bash -c "sudo cat >> /etc/ansible/hosts << EOF
-192.168.100.2
-EOF"
+# client host정보 추가
+#sudo bash -c "sudo cat >> /etc/ansible/hosts << EOF
+#192.168.100.2
+#EOF"
