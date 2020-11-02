@@ -21,11 +21,11 @@ sudo bash -c "sudo cat >> /etc/sudoers << EOF
 EOF"
 
 # ssh키 복사 후 실행권한 조정
-#chmod 700 ~/.ssh
-#chmod 600 ~/.ssh/id_rsa
-#chmod 644 ~/.ssh/id_rsa.pub
-#chmod 644 ~/.ssh/authorized_keys
-#chmod 644 ~/.ssh/known_hosts
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/id_rsa
+chmod 644 ~/.ssh/id_rsa.pub
+chmod 644 ~/.ssh/authorized_keys
+chmod 644 ~/.ssh/known_hosts
 
 # WSL2로 가면서 외부에서 접속하려면 포트포워딩이 필요해짐
 # https://www.hanselman.com/blog/how-to-ssh-into-wsl2-on-windows-10-from-an-external-machine 참고
