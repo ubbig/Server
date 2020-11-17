@@ -12,6 +12,7 @@ sudo mv my-postgres.conf /docker_data/postgresql/config
 
 # 	--network postgres-net \
 docker run -d --restart unless-stopped --name postgresql -p 5432:5432 \
+  -e TZ=Asia/Seoul \
 	-v /docker_data/postgresql/data:/var/lib/postgresql/data \
 	-v /docker_data/postgresql/config:/etc/postgresql/config \
 	-e POSTGRES_USER=selabdev \
