@@ -22,3 +22,8 @@ fi
 #sudo bash -c "sudo cat >> /etc/ansible/hosts << EOF
 #192.168.100.2
 #EOF"
+
+# sudo권한으로 명령어 실행시 필요함
+#sudo bash -c "sudo cat >> /etc/sudoers << EOF
+#selabdev  ALL=NOPASSWD: ALL
+#EOF"

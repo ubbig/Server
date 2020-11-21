@@ -3,6 +3,7 @@
 docker pull jetbrains/youtrack:2020.2.6881
 
 docker run -dit --restart unless-stopped --name youtrack \
+  -e TZ=Asia/Seoul \
   -v /docker_data/youtrack/data:/opt/youtrack/data \
   -v /docker_data/youtrack/conf:/opt/youtrack/conf \
   -v /docker_data/youtrack/logs:/opt/youtrack/logs \

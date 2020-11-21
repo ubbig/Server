@@ -15,6 +15,7 @@ docker run -v $OVPN_DATA:/etc/openvpn --log-driver=none --rm -it selab_openvpn o
 # 공용키 사용하여 생성
 
 docker run -d --restart unless-stopped --name openvpn \
+  -e TZ=Asia/Seoul \
   -v $OVPN_DATA:/etc/openvpn \
   -p 1194:1194/udp --cap-add=NET_ADMIN \
   selab_openvpn
