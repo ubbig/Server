@@ -20,10 +20,12 @@ sudo systemctl enable ntp
 sudo bash -c "sudo cat >> /etc/sysctl.conf << EOF
 fs.file-max = 65535
 fs.inotify.max_user_watches=524288
+vm.max_map_count=262144
 EOF"
 
 sudo sysctl -w fs.file-max=65535
 sudo sysctl -w fs.inotify.max_user_watches=524288
+sudo sysctl -w vm.max_map_count=262144
 
 sudo bash -c "sudo cat >> /etc/security/limits.conf << EOF
 *          hard    core            unlimited
