@@ -1,0 +1,3 @@
+dbport = 5452
+dbuser = bucardo
+dbname = bucardo
