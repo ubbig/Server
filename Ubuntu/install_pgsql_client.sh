@@ -11,4 +11,4 @@ echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg-testin
 sudo apt update
 
 #sudo apt install -y postgresql-13
-sudo apt install -y postgresql-client-13
+sudo apt install -y postgresql-common postgresql-contrib-13 postgresql-client-13
