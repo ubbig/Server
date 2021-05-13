@@ -19,5 +19,12 @@ docker run -d --restart unless-stopped --name postgresql -p 5432:5432 \
 	-e POSTGRES_PASSWORD=qhdkscjfwj\!@ \
 	postgres:13.0 -c 'config_file=/etc/postgresql/config/my-postgres.conf'
 
-sudo firewall-cmd --permanent --zone=public --add-port=5432/tcp
-sudo firewall-cmd --reload
+
+#docker run -d --restart unless-stopped --name postgres_prometheus_exporter \
+#  -e TZ=Asia/Seoul \
+#	-p 9187:9187 \
+#  -e DATA_SOURCE_NAME="postgresql://selabdev:qhdkscjfwj\!@@192.168.100.4:5432/SensorDB?sslmode=disable" \
+#  quay.io/prometheuscommunity/postgres-exporter
+
+#sudo firewall-cmd --permanent --zone=public --add-port=5432/tcp
+#sudo firewall-cmd --reload
