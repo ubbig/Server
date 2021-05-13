@@ -10,6 +10,7 @@ RUN apt-get -y install vim
 RUN apt-get -y install postgresql-9.5 bucardo jq
 
 COPY etc/pg_hba.conf /etc/postgresql/9.5/main/
+COPY etc/postgresql.conf /etc/postgresql/9.5/main/
 COPY etc/bucardorc /etc/bucardorc
 
 RUN chown postgres /etc/postgresql/9.5/main/pg_hba.conf

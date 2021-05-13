@@ -1,4 +1,4 @@
-dbport = 5432
+dbport = 5452
 dbhost = 127.0.0.1
 dbuser = bucardo
 dbname = bucardo
