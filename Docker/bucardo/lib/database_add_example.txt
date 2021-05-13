@@ -1,0 +1,22 @@
+> 데이터 베이스 -> 테이블 추가 -> 그룹생성 -> 동기화 순서로 진행
+
+
+* Bucardo에서 참조할 Database 추가
+
+bucardo add database 생성이름 dbname=maindb dbpass=thp123 dbport=5452 dbuser=thpark dbhost=192.168.177.91
+
+* Database의 테이블 추가
+
+bucardo add all tables
+
+* 그룹추가 source=master, target=slave
+bucardo add dbgroup 그룹명 maindb:source subdb:source
+
+bucardo add relgroup 그룹명 public.테이블명
+
+
+* 동기화
+bucardo add sync 동기화명 dbgroup=그룹명 relgroup=그룹명
+
+ 
+
