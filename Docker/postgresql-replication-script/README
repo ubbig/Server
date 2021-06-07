@@ -1,0 +1,14 @@
+마스터 설치 -> 포트 설정
+postgresql-install-master.sh
+
+마스터 셋팅 -> 포트 설정
+replication-master-setting.sh
+
+슬레이브 설치 -> 포트 설정
+postgresql-install-slave.sh
+
+슬레이브 셋팅 -> 슬레이브 내부에서 실행
+postgresql-slave.setting.sh
+
+pgpool2 셋팅
+pgpool2-install-script.sh
