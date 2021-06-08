@@ -34,10 +34,16 @@ OLD_PRIMARY_NODE_PORT="${12}"
 PGHOME=/usr/lib/postgresql/13
 REPL_SLOT_NAME=${FAILED_NODE_HOST//[-.]/_}
 
-echo "failover.sh ssh -T -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-	postgres@${NEW_MAIN_NODE_HOST} -p 5553 -i ~/.ssh/id_rsa_pgpool ${PGHOME}/bin/pg_ctl -D ${NEW_MAIN_NODE_PGDATA} -w promote $(date)" >> /etc/pgpool2/failover.log
+echo "new_node_id=${NEW_MAIN_NODE_ID}, faild_node_id=${FAILED_NODE_ID}, old_main_node_id=${OLD_MAIN_NODE_ID}, old_primary_node_id=${OLD_RPIMARY_NODE_ID}, new_main_node_host=${NEW_MAIN_NODE_HOST}, date:$(date)" >> /etc/pgpool2/failover.log
 
-ssh -T postgres@${NEW_MAIN_NODE_HOST} -p 5553 ${PGHOME}/bin/pg_ctl -D /var/lib/postgresql/data -w promote
+if [ ${FAILED_NODE_ID} -eq 0 ]; then
+    echo Run : ${FAILED_NODE_ID} to 1 >> /etc/pgpool2/failover.log
+    ssh -T postgres@${NEW_MAIN_NODE_HOST} -p 5553 ${PGHOME}/bin/pg_ctl -D /var/lib/postgresql/data -w promote
+fi
+
+if [ ${FAILED_NODE_ID} -eq 1 ]; then
+    ssh -T postgres@${NEW_MAIN_NODE_HOST} -p 5563 ${PGHOME}/bin/pg_ctl -D /var/lib/postgresql/data -w promote
+fi
 
 if [ $? -ne 0 ]; then
     echo ERROR: failover.sh: end: failover failed
