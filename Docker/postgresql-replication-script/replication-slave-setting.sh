@@ -6,6 +6,11 @@
 #cp -f /var/lib/postgresql/data/pg_hba.conf /docker/master-backup/
 #mv -f /docker/master-backup/* /var/lib/postgresql/data/
 
+apt-get update
+apt-get install -y vim
+apt-get install -y ssh
+echo service ssh start >> /root/.bashrc
+
 mkdir master-backup
 cp -f /var/lib/postgresql/data/postgresql.conf /master-backup/
 cp -f /var/lib/postgresql/data/pg_hba.conf /master-backup/

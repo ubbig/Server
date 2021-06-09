@@ -8,5 +8,7 @@ sudo docker run --restart unless-stopped --name pgsql-slave -d \
 	-v /docker/pgsql-slave:/var/lib/postgresql/data \
        	postgres:13
 
+sleep 1
+
 sudo cp config/slave-config/* /docker/pgsql-slave/
 

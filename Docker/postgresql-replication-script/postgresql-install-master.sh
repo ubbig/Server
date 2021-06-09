@@ -7,5 +7,7 @@ sudo docker run --restart unless-stopped --name pgsql-master -d \
 	-v /docker/pgsql-master:/var/lib/postgresql/data \
        	postgres:13
 
+sleep 1
+
 sudo cp -r config/master-config/* /docker/pgsql-master/
 
