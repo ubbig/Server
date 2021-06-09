@@ -12,3 +12,14 @@ postgresql-slave.setting.sh
 
 pgpool2 셋팅
 pgpool2-install-script.sh
+
+
+
+자주쓰는 명령어
+
+pgpool 연결노드 확인 : show pool_nodes;
+replication 연결 확인 : select * from pg_stat_replication;
+pgpool 연경 : psql -p 5557 -h 172.26.113.191 -d postgres -U postgres
+pgpool 연결노드 활성화 : pcp_attach_node -h 172.26.113.191 -p 5558 -U postgres -d -v -n 0
+pgpool standby to primary : pcp_promote_node -h 172.26.113.191 -p 5558 -U postgres -d -v -n 0
+postgres primary 변경 : pg_ctl -D $PGDATA promote
