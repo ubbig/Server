@@ -11,7 +11,6 @@ echo "enter you want installation prometheus location : ex) /test/example "
 #prometheus_Location="/home/shelltest"
 read prometheus_Location
 sudo mkdir -p "$prometheus_Location"
-echo "ttttt"
 
 sudo bash -c "sudo cat >> $prometheus_Location/prometheus.yml << EOF
 
