@@ -28,5 +28,4 @@ docker run -d --restart unless-stopped --name postgresql -p 5432:5432 \
 #  -e DATA_SOURCE_NAME="postgresql://selabdev:qhdkscjfwj\!@@192.168.100.4:5432/SensorDB?sslmode=disable" \
 #  quay.io/prometheuscommunity/postgres-exporter
 
-#sudo firewall-cmd --permanent --zone=public --add-port=5432/tcp
-#sudo firewall-cmd --reload
+#pgbench --host=192.168.100.2 --username=selabdev --client=100 --jobs=7 --log --time=30 SensorDB
