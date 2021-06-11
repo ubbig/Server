@@ -21,7 +21,7 @@ docker run -d --restart unless-stopped --name postgresql -p 5432:5432 \
 	postgres:13.0 -c 'config_file=/etc/postgresql/config/my-postgres.conf'
 
 
-#docker run -d --restart unless-stopped --name postgres_prometheus_exporter \
+#docker run -d --restart unless-stopped --name prometheus_exporter_pgsql \
 #  -e TZ=Asia/Seoul \
 #	-p 9187:9187 \
 # 	--network postgres-net \
