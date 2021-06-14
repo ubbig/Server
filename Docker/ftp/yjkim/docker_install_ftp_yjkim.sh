@@ -8,6 +8,6 @@ docker run -d --restart unless-stopped --cpus=1 \
   -e PASV_MAX_PORT=21110 \
   -e TZ=Asia/Seoul \
   -e FTP_USER=selabdev -e FTP_PASS='password' \
-  -v /docker_data/vsftp/data:/home/vsftpd \
-  -v /docker_data/vsftp/log:/var/log/vsftpd \
+  -e LOG_STDOUT=enable  \
+  -e XFERLOG_STD_FORMAT=YES \
   fauria/vsftpd:latest
