@@ -3,9 +3,6 @@
 sudo apt update -y
 sudo apt upgrade -y
 
-sudo apt install -y tasksel
-sudo tasksel install -y ubuntu-desktop
-
 sudo apt install -y openssh-server
 sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak
 sudo sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin no/' /etc/ssh/sshd_config
@@ -19,6 +16,8 @@ sudo apt install -y sshpass
 sudo apt install -y unzip
 sudo apt install -y ntp
 sudo systemctl enable ntp
+
+sudo timedatectl set-timezone Asia/Seoul
 
 sudo bash -c "sudo cat >> /etc/sysctl.conf << EOF
 fs.file-max = 65535
@@ -42,6 +41,18 @@ EOF"
 git config --global user.name "selabdev"
 git config --global user.email selabdev.selab@gmail.com
 
+
+
+# x-window
+sudo apt install -y tasksel
+sudo tasksel install -y ubuntu-desktop
+
 sudo apt autoremove -y
 
+
+# firewall
+#sudo ufw default deny
+#sudo ufw allow ssh
+#sudo ufw logging on
+#sudo ufw enable
 
