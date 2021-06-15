@@ -53,7 +53,7 @@ EOF"
 
 docker pull prom/prometheus:v2.22.2
 docker pull prom/node-exporter:v0.18.0
-docker pull grafana/grafana:6.5.0-ubuntu
+docker pull grafana/grafana:6.6.0-ubuntu
 
 
 #============= docker run script =======================
