@@ -19,6 +19,7 @@ sleep 5
 
 sudo cp config/h-config/* /docker/pgpool/postgresql/
 sudo cp config/pgpool-config/* /docker/pgpool/pgpool/
-ssh-keygen -f ~/.ssh/id_rsa -N etri1234!
-echo service ssh start >> /root/.bashrc
+docker exec pgpool-selab sh -c "ssh-keygen -f ~/.ssh/id_rsa -N etri1234!"
+docker exec pgpool-selab sh -c "echo service ssh start >> /root/.bashrc"
+docker exec pgpool-selab sh -c "echo service pgpool >>/root/.bashrc"
 docker restart pgpool-selab

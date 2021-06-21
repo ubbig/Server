@@ -12,9 +12,9 @@ sudo docker run --restart unless-stopped --name pgsql-master -d \
 sleep 5
 
 sudo cp -r config/master-config/* /docker/pgsql-master/
-ssh-keygen -f ~/.ssh/id_rsa -N etri1234!
+docker exec pgsql-master sh -c "ssh-keygen -f ~/.ssh/id_rsa -N etri1234!"
 
-echo service ssh start >> /root/.bashrc
+docker exec pgsql-master sh -c "echo service ssh start >> /root/.bashrc"
 
 docker exec pgsql-master su - postgres -c "psql -U etri -d etri -p 5432 -c \"create user repl replication password 'etri1234!';\""
 

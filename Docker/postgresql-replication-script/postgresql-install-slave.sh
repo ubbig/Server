@@ -12,6 +12,6 @@ sudo docker run --restart unless-stopped --name pgsql-slave -d \
 sleep 5
 
 sudo cp config/slave-config/* /docker/pgsql-slave/
-ssh-keygen -f ~/.ssh/id_rsa -N etri1234!
-echo service ssh start >> /root/.bashrc
+docker exec pgsql-slave sh -c "ssh-keygen -f ~/.ssh/id_rsa -N etri1234!"
+docker exec pgsql-slave sh -c "echo service ssh start >> /root/.bashrc"
 sudo docker restart pgsql-slave
