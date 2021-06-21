@@ -2,6 +2,8 @@
 
 mkdir -p /docker/pgpool/
 
+docker network create --driver=bridge postgres-net
+
 docker load -i docker-images/pgpool-image.tar
 
 docker run -d --restart unless-stopped --name pgpool-selab \
@@ -19,7 +21,7 @@ sleep 5
 
 sudo cp config/h-config/* /docker/pgpool/postgresql/
 sudo cp config/pgpool-config/* /docker/pgpool/pgpool/
-docker exec pgpool-selab sh -c "ssh-keygen -f ~/.ssh/id_rsa -N etri1234!"
+docker exec pgpool-selab sh -c "ssh-keygen -t rsa -f ~/.ssh/id_rsa"
 docker exec pgpool-selab sh -c "echo service ssh start >> /root/.bashrc"
 docker exec pgpool-selab sh -c "echo pgpool >>/root/.bashrc"
 docker restart pgpool-selab
