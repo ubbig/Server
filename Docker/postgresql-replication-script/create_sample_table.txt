@@ -1,0 +1,4 @@
+CREATE TABLE sensor (
+	id SERIAL PRIMARY KEY,
+	data INTEGER NOT NULL
+);
