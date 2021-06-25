@@ -1,6 +1,8 @@
 #!/bin/bash
 
 # https://hub.docker.com/_/postgres
+# 튜닝파라메터 설정 - https://wiki.postgresql.org/wiki/Tuning_Your_PostgreSQL_Server
+
 docker pull postgres:13.0
 
 # prometheus exporter를 사용하려면 네트워크 브리지 해줘야 한다.
@@ -18,7 +20,12 @@ docker run -d --restart unless-stopped --name postgresql -p 5432:5432 \
 	-v /docker_data/postgresql/config:/etc/postgresql/config \
 	-e POSTGRES_USER=selabdev \
 	-e POSTGRES_PASSWORD=qhdkscjfwj\!@ \
-	postgres:13.0 -c 'config_file=/etc/postgresql/config/my-postgres.conf'
+	postgres:13.0 \
+	-c 'config_file=/etc/postgresql/config/my-postgres.conf' \
+  -c shared_buffers=10240MB \
+  -c max_connections=2096 \
+  -c wal_buffers=512MB \
+  -c effective_cache_size=20480MB
 
 
 #docker run -d --restart unless-stopped --name prometheus_exporter_pgsql \
