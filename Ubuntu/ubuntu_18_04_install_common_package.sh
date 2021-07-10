@@ -17,6 +17,8 @@ sudo apt install -y unzip
 sudo apt install -y ntp
 sudo systemctl enable ntp
 
+sudo apt install -y cpufrequtils
+
 sudo bash -c "sudo cat >> /etc/sysctl.conf << EOF
 fs.file-max = 65535
 fs.inotify.max_user_watches=524288

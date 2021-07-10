@@ -17,6 +17,8 @@ sudo apt install -y unzip
 sudo apt install -y ntp
 sudo systemctl enable ntp
 
+sudo apt install -y cpufrequtils
+
 sudo timedatectl set-timezone Asia/Seoul
 
 sudo bash -c "sudo cat >> /etc/sysctl.conf << EOF
