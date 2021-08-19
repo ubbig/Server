@@ -15,5 +15,6 @@ docker run -d --restart unless-stopped -p 3000:3000 --name grafana \
 -v grafana-storage:/var/lib/grafana \
 -v /docker_data/grafana/grafana.ini:/etc/grafana/grafana.ini \
 -e TZ=Asia/Seoul \
+-e "GF_LOG_LEVEL=debug" \
 grafana/grafana:8.0.3-ubuntu
 
