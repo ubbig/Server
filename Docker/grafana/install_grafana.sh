@@ -11,6 +11,7 @@ docker volume create grafana-storage
 #  grafana/grafana:6.5.0-ubuntu
 
 docker run -d --restart unless-stopped -p 3000:3000 --name grafana \
+--user root \
 -v grafana-storage:/var/lib/grafana \
 -v /docker_data/grafana/grafana.ini:/etc/grafana/grafana.ini \
 -e TZ=Asia/Seoul \
