@@ -8,7 +8,7 @@ sudo docker run -d --restart unless-stopped --name postgis_db \
         -v /docker_data/geoserver/postgis_data:/var/lib/postgresql \
         -v /docker_data/geoserver/postgis_config:/etc/postgresql/config \
         -p 5434:5432 \
-        postgres:13.0
+        kartoza/postgis:13
 
 sudo docker volume create pgadmin4
 
