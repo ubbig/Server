@@ -1,0 +1,10 @@
+FROM ubuntu:18.04
+MAINTAINER yjkim@selab.co.kr
+
+# Install packages required to compile c++
+RUN apt update && apt install -y vim curl htop build-essential gcc g++ make \
+    gdb gdbserver rsync wget clang valgrind ccache binutils-dev libssl-dev git
+
+# Install cmake 3.15 - visual studio 2019 기본 탑재된 cmake버전에 고정함
+RUN wget --no-verbose https://github.com/Kitware/CMake/releases/download/v3.15.6/cmake-3.15.6-Linux-x86_64.sh
+RUN bash /cmake-3.15.6-Linux-x86_64.sh --prefix=/usr/local --exclude-subdir
