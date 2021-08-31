@@ -1,5 +1,6 @@
 FROM ubuntu:18.04
 MAINTAINER yjkim@selab.co.kr
+# cmake기반 cpp개발환경 구성
 
 # Install packages required to compile c++
 RUN apt update && apt install -y vim curl htop build-essential gcc g++ make \
