@@ -1,13 +1,43 @@
-# https://hub.docker.com/r/fauria/vsftpd
+#!/bin/bash
 
-# TODO yjkim : 기본 로그 파일 로그정보가 별로 안남아서 로그 레벨 조정이 필요
-docker run -d --restart unless-stopped --cpus=1 \
-  --name vsftpd \
-  -p 20:20 -p 21:21 -p 21100-21110:21100-21110 \
-  -e PASV_MIN_PORT=21100 \
-  -e PASV_MAX_PORT=21110 \
-  -e TZ=Asia/Seoul \
-  -e FTP_USER=selabdev -e FTP_PASS='password' \
-  -e LOG_STDOUT=enable  \
-  -e XFERLOG_STD_FORMAT=YES \
-  fauria/vsftpd:latest
+docker volume create sftpgo_data
+docker volume create sftpgo_home
+
+docker run -d --restart unless-stopped \
+    --name sftpgo \
+    -e TZ=Asia/Seoul \
+    -e SFTPGO_HTTPD__BINDINGS__0__PORT=8000 \
+    -p 8000:8000 \
+    -p 2022:2022 \
+    -v sftpgo_data:/srv/sftpgo \
+    -v sftpgo_home:/var/lib/sftpgo \
+    drakkan/sftpgo:latest
+
+
+-- nfs볼륨 생성은 좀더 테스트 해봐야 함
+
+#docker volume create --driver local \
+#    --opt type=nfs \
+#    --opt o=addr=192.168.100.40,rw \
+#    --opt device=:/volume1/ServerSharedDrive/docker_data/sftpgo/data \
+#    sftpgo_data
+#
+#docker volume create --driver local \
+#    --opt type=nfs \
+#    --opt o=addr=192.168.100.40,rw \
+#    --opt device=:/volume1/ServerSharedDrive/docker_data/sftpgo/home \
+#    sftpgo_home
+
+#docker service create --name sftpgo \
+#    --constraint node.hostname==gitlab  \
+#    --network sftpgo \
+#    -e TZ=Asia/Seoul \
+#    -e SFTPGO_HTTPD__BINDINGS__0__PORT=8000 \
+#    -p 8000:8000 \
+#    -p 2022:2022 \
+#    --mount 'type=volume,src=sftpgo_data,dst=/srv/sftpgo' \
+#    --mount 'type=volume,src=sftpgo_home,dst=/var/lib/sftpgo' \
+#    drakkan/sftpgo:latest
+#
+#    --publish published=8000,target=8000  \
+#    --publish published=2022,target=2022  \
