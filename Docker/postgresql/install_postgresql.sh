@@ -8,7 +8,7 @@ docker pull postgres:13.0
 # prometheus exporter를 사용하려면 네트워크 브리지 해줘야 한다.
 #docker network create --driver=bridge postgres-net
 
-docker run -i --rm postgres cat /usr/share/postgresql/postgresql.conf.sample > my-postgres.conf
+docker run -i --rm postgres:13.0 cat /usr/share/postgresql/postgresql.conf.sample > my-postgres.conf
 
 sudo mkdir -p /docker_data/postgresql/config
 sudo mv my-postgres.conf /docker_data/postgresql/config
