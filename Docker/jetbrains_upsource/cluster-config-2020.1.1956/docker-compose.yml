@@ -1,0 +1,232 @@
+version: "2"
+services:
+  haproxy:
+    image: ${UPSOURCE_IMAGES_PREFIX}jetbrains/upsource-proxy:${UPSOURCE_VERSION}
+    restart: unless-stopped
+    networks:
+      up_net:
+        aliases:
+        - proxy
+    environment:
+    - MONITORING_HOST=monitoring
+    - MONITORING_PORT=${UPSOURCE_MONITORING_LISTEN_PORT}
+    - UPSOURCE_MONITORING_LISTEN_PORT=${UPSOURCE_MONITORING_LISTEN_PORT}
+    - UPSOURCE_SUBNET=${UPSOURCE_SUBNET}
+    - UPSOURCE_EXPOSED_PROXY_PORT=${UPSOURCE_EXPOSED_PROXY_PORT}
+    # This constraint specifies the node haproxy is deployed on.
+    # UPSOURCE_PROXY_NODE variable doesn't have a default value and should be defined in the docker-compose-params.env file.
+    # It makes sense to ensure haproxy is deployed to the same node each time,
+    # since it is an entry point of the Upsource cluster and it listens on a public port mapped to the port of the host machine.
+    - "constraint:node==${UPSOURCE_PROXY_NODE}"
+    ports:
+    # This is the main Upsource cluster port. haproxy routes all traffic from this port to nodes inside the cluster.
+    # Default value of UPSOURCE_EXPOSED_PROXY_PORT is set to 8080 in cluster.sh and can be customized in docker-compose-params.env file.
+    # This port is mapped to the same port on the host machine where the docker container with haproxy is running.
+    - ${UPSOURCE_EXPOSED_PROXY_PORT}:${UPSOURCE_EXPOSED_PROXY_PORT}
+    expose:
+    - ${UPSOURCE_EXPOSED_PROXY_PORT}
+
+  cassandra:
+    image: ${UPSOURCE_IMAGES_PREFIX}jetbrains/upsource-cassandra:${UPSOURCE_VERSION}
+    restart: unless-stopped
+    networks:
+      up_net:
+        aliases:
+        - cassandra
+    environment:
+    - UPSOURCE_SUBNET=${UPSOURCE_SUBNET}
+    # This constraint specifies the node cassandra is deployed on.
+    # UPSOURCE_CASSANDRA_NODE variable doesn't have a default value and should be defined in the docker-compose-params.env file.
+    # Cassandra database is stored on node host machine, node where cassandra is deployed should be the same between cluster restarts
+    - "constraint:node==${UPSOURCE_CASSANDRA_NODE}"
+    expose:
+    - 9042
+    volumes:
+    - /opt/upsource/cassandra:/var/lib/cassandra
+
+  analyzer:
+    image: ${UPSOURCE_IMAGES_PREFIX}jetbrains/upsource-analyzer:${UPSOURCE_VERSION}
+    restart: unless-stopped
+    env_file:
+    - ./upsource.env
+    networks:
+      up_net:
+        aliases:
+         - analyzer
+    expose:
+    # This port is exposed by the service inside the cluster network and is used by Upsource's internal service discovery and messaging subsystem
+    - 10061
+    # This port is reserved for the Upsource console (/opt/upsource-lib/upsource-console.sh). During startup Upsource console uses the port for communication with other services in the cluster.
+    - 8886
+    environment:
+    - UPSOURCE_SUBNET=${UPSOURCE_SUBNET}
+    volumes:
+    # This volume maps the /var/log/upsource/analyzer directory on the host machine to the logs directory inside the docker container of a service.
+    # /var/log/upsource/analyzer directory should be created on the host machine
+    # and user jetbrains (with id 13001) used for starting the service inside the docker container
+    # should be granted read/write access to that folder before the service is started.
+    - /var/log/upsource/analyzer:/opt/upsource-analyzer/logs
+    #- /opt/hub/cert:/opt/upsource-analyzer/conf/cert
+    command: --J${UPSOURCE_ANALYZER_XMX}
+
+  frontend:
+    image: ${UPSOURCE_IMAGES_PREFIX}jetbrains/upsource-frontend:${UPSOURCE_VERSION}
+    restart: unless-stopped
+    env_file:
+    - ./upsource.env
+    networks:
+      up_net:
+        aliases:
+         - frontend
+    expose:
+    # This port is exposed by the service inside the cluster network and is used by Upsource's internal service discovery and messaging subsystem
+    - 10061
+    # This port is exposed by the service console inside the cluster network and is used by upsource console service to communicate with other services in the cluster.
+    - 8886
+    # Frontend web server listens to this port inside the cluster network.
+    # All containers started for the Frontend service are load-balanced by the haproxy service which is an entry point of the cluster.
+    # (Frontends are not supposed to be available through this port outside the cluster network, but only through haproxy)
+    - 10070
+    environment:
+    - UPSOURCE_WEB_SERVER_LISTEN_PORT=10070
+    - UPSOURCE_SUBNET=${UPSOURCE_SUBNET}
+    volumes:
+    # This volume maps the /var/log/upsource/frontend directory on the host machine to the logs directory inside the docker container of a service.
+    # /var/log/upsource/frontend directory should be created on the host machine
+    # and user jetbrains (with id 13001) used for starting the service inside the docker container
+    # should be granted read/write access to that folder before the service is started.
+    - /var/log/upsource/frontend:/opt/upsource-frontend/logs
+    #- /opt/hub/cert:/opt/upsource-frontend/conf/cert
+    command: --J${UPSOURCE_FRONTEND_XMX}
+
+  opscenter:
+    image: ${UPSOURCE_IMAGES_PREFIX}jetbrains/upsource-opscenter:${UPSOURCE_VERSION}
+    container_name: opscenter
+    restart: unless-stopped
+    env_file:
+    - ./upsource.env
+    networks:
+      up_net:
+        aliases:
+         - monitoring
+    expose:
+    # This port is exposed by the service inside the cluster network and is used by Upsource's internal service discovery and messaging subsystem
+    - 10061
+    # This port is reserved for the Upsource console (/opt/upsource-lib/upsource-console.sh). During startup Upsource console uses the port for communication with other services in the cluster.
+    - 8886
+    # Monitoring and operations center web server listens to this port inside the cluster network.
+    # haproxy routes all requests with context path /monitoring/ to this web server.
+    # Default value of UPSOURCE_MONITORING_LISTEN_PORT is set to 10080 in cluster.sh and can be customized in file docker-compose-params.env.
+    - ${UPSOURCE_MONITORING_LISTEN_PORT}
+    environment:
+    - UPSOURCE_WEB_SERVER_LISTEN_PORT=${UPSOURCE_MONITORING_LISTEN_PORT}
+    - UPSOURCE_SUBNET=${UPSOURCE_SUBNET}
+    # This constraint specifies the node opscenter is deployed on.
+    # UPSOURCE_OPSCENTER_NODE variable doesn't have a default value and should be defined in the docker-compose-params.env file.
+    # It makes sense to ensure opscenter is deployed to the same node each time,
+    # since it is in charge of creating Upsource backups and storing them.
+    # Alternatively, the entire constraint can be disabled.
+    # In that case the node where opscenter is started may vary between restarts,
+    # and consequently some backups might get stored on one node and some on another
+    # (unless the backups volume is mapped to a shared storage mounted on all cluster nodes).
+    - "constraint:node==${UPSOURCE_OPSCENTER_NODE}"
+    volumes:
+    # This volume maps the /var/log/upsource/opscenter directory on the host machine to the logs directory inside the docker container of a service.
+    # /var/log/upsource/opscenter directory should be created on the host machine
+    # and user jetbrains (with id 13001) used for starting the service inside the docker container
+    # should be granted read/write access to that folder before the service is started.
+    - /var/log/upsource/opscenter:/opt/upsource-opscenter/logs
+
+    # UPSOURCE_BACKUPS_PATH_ON_HOST_SYSTEM variable defines the path on the host machine where Upsource will store backups.
+    # Default value of this path is set to /opt/upsource/backups in cluster.sh file and it can be customized in docker-compose-params.env file.
+    # make sure user jetbrains (with id 13001) used for starting the service inside the docker container has read/write access to that folder on the host machine.
+    - $UPSOURCE_BACKUPS_PATH_ON_HOST_SYSTEM:/opt/upsource-opscenter/backup
+    #- /opt/hub/cert:/opt/upsource-opscenter/conf/cert
+    command: --J${UPSOURCE_OPSCENTER_XMX}
+
+  psi-broker:
+    image: ${UPSOURCE_IMAGES_PREFIX}jetbrains/upsource-psi-broker:${UPSOURCE_VERSION}
+    container_name: psi-broker
+    restart: unless-stopped
+    env_file:
+    - ./upsource.env
+    networks:
+      up_net:
+        aliases:
+         - psi-broker
+    expose:
+    # This port is exposed by the service inside the cluster network and is used by Upsource's internal service discovery and messaging subsystem
+    - 10061
+    # This port is reserved for the Upsource console (/opt/upsource-lib/upsource-console.sh), being started Upsource console uses the port for communication with other services in the cluster.
+    - 8886
+    # PSI Broker listen to PSI agents at this port.
+    - ${UPSOURCE_PSI_BROKER_LISTEN_PORT}
+    environment:
+    - UPSOURCE_SUBNET=${UPSOURCE_SUBNET}
+    - UPSOURCE_PSI_BROKER_LISTEN_PORT=${UPSOURCE_PSI_BROKER_LISTEN_PORT}
+    volumes:
+    # This volume maps the /var/log/upsource/psi-broker directory on the host machine to the logs directory inside the docker container of a service.
+    # /var/log/upsource/psi-broker directory should be created on the host machine
+    # and user jetbrains (with id 13001) used for starting the service inside the docker container
+    # should be granted read/write access to that folder before the service is started.
+    - /var/log/upsource/psi-broker:/opt/upsource-psi-broker/logs
+    #- /opt/hub/cert:/opt/upsource-psi-broker/conf/cert
+    command: --J${UPSOURCE_PSI_BROKER_XMX}
+
+  psi-agent:
+    image: ${UPSOURCE_IMAGES_PREFIX}jetbrains/upsource-psi-agent:${UPSOURCE_VERSION}
+    restart: unless-stopped
+    env_file:
+    - ./upsource.env
+    networks:
+      up_net:
+        aliases:
+         - psi-agent
+    expose:
+    # This port is exposed by the service inside the cluster network and is used by Upsource's internal service discovery and messaging subsystem
+    - 10061
+    # This port is reserved for the Upsource console (/opt/upsource-lib/upsource-console.sh), being started Upsource console uses the port for communication with other services in the cluster.
+    - 8886
+    environment:
+    - UPSOURCE_SUBNET=${UPSOURCE_SUBNET}
+    - UPSOURCE_PSI_BROKER_LISTEN_PORT=${UPSOURCE_PSI_BROKER_LISTEN_PORT}
+    - UPSOURCE_PSI_BROKER_HOST=psi-broker
+    volumes:
+    # This volume maps the /var/log/upsource/psi-agent directory on the host machine to the logs directory inside the docker container of a service.
+    # /var/log/upsource/psi-agent directory should be created on the host machine
+    # and user jetbrains (with id 13001) used for starting the service inside the docker container
+    # should be granted read/write access to that folder before the service is started.
+    - /var/log/upsource/psi-agent:/opt/upsource-psi-agent/logs
+    #- /opt/hub/cert:/opt/upsource-psi-agent/conf/cert
+    command: --J${UPSOURCE_PSI_AGENT_XMX}
+
+  file-clustering:
+    image: ${UPSOURCE_IMAGES_PREFIX}jetbrains/upsource-file-clustering:${UPSOURCE_VERSION}
+    container_name: file-clustering
+    restart: unless-stopped
+    env_file:
+    - ./upsource.env
+    networks:
+      up_net:
+        aliases:
+         - file-clustering
+    expose:
+    # This port is exposed by the service inside the cluster network and is used by Upsource's internal service discovery and messaging subsystem
+    - 10061
+    # This port is reserved for the Upsource console (/opt/upsource-lib/upsource-console.sh), being started Upsource console uses the port for communication with other services in the cluster.
+    - 8886
+    environment:
+    - UPSOURCE_SUBNET=${UPSOURCE_SUBNET}
+    volumes:
+    # This volume maps the /var/log/upsource/file-clustering directory on the host machine to the logs directory inside the docker container of a service.
+    # /var/log/upsource/file-clustering directory should be created on the host machine
+    # and user jetbrains (with id 13001) used for starting the service inside the docker container
+    # should be granted read/write access to that folder before the service is started.
+    - /var/log/upsource/file-clustering:/opt/upsource-file-clustering/logs
+    #- /opt/hub/cert:/opt/upsource-file-clustering/conf/cert
+    command: --J${UPSOURCE_FILE_CLUSTERING_XMX}
+
+networks:
+  up_net:
+    external:
+      name: ${UPSOURCE_NET_NAME}

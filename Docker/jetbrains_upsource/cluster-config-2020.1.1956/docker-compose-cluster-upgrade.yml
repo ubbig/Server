@@ -1,0 +1,8 @@
+version: "2"
+services:
+  cluster-init:
+    volumes:
+    # This volume maps the directory with backup on the host machine to the /opt/upsource-cluster-init/data inside the docker container of a service.
+    # User jetbrains (with id 13001) used for starting the service inside the docker container
+    # should be granted read/write access to that mapped folder from the host machine before the service is started.
+    - ${UPSOURCE_UPGRADE_SOURCE_BACKUP_DIRECTORY}:/opt/upsource-cluster-init/data

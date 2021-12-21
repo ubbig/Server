@@ -1,0 +1,31 @@
+version: "2"
+services:
+  cluster-init:
+    image: ${UPSOURCE_IMAGES_PREFIX}jetbrains/upsource-cluster-init:${UPSOURCE_VERSION}
+    container_name: cluster-init
+#    restart: unless-stopped
+    env_file:
+    - ./upsource.env
+    networks:
+      up_net:
+        aliases:
+         - cluster-init
+    expose:
+    # This port is exposed by the service inside the cluster network and is used by Upsource's internal service discovery and messaging subsystem
+    - 10061
+    # This port is reserved for the Upsource console (/opt/upsource-lib/upsource-console.sh). During startup Upsource console uses the port for communication with other services in the cluster.
+    - 8886
+    environment:
+    - UPSOURCE_SUBNET=${UPSOURCE_SUBNET}
+    # This constraint specifies the node Upsource cluster initializer service is started on.
+    # UPSOURCE_CLUSTER_INIT_NODE variable doesn't have a default value and should be defined in the docker-compose-params.env
+    - "constraint:node==${UPSOURCE_CLUSTER_INIT_NODE}"
+    volumes:
+    # This volume maps the /var/log/upsource/cluster-init directory on the host machine to the logs directory inside the docker container of a service.
+    # /var/log/upsource/cluster-init directory should be created on the host machine
+    # and user jetbrains (with id 13001) used for starting the service inside the docker container
+    # should be granted read/write access to that folder before the service is started.
+    - /var/log/upsource/cluster-init:/opt/upsource-cluster-init/logs
+    #- /opt/hub/cert:/opt/upsource-cluster-init/conf/cert
+    command: --J${UPSOURCE_CLUSTER_INIT_XMX}
+
