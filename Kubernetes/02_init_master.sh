@@ -276,7 +276,7 @@ then
     kubectl apply -f calico.yaml
 else
     echo "After executing 02_init_master.sh on ${HOST1_ID}, register the control-plane with the example command below in the remaining masters."
-    echo "##### EXAPLE (** NOTE: NEVER EXCUTE THE COMMAND BELLOW AS IT IS. **) ######"
+    echo "##### EXAMPLE (** NOTE: NEVER EXCUTE THE COMMAND BELLOW AS IT IS. **) ######"
     echo "sudo kubeadm join ${APISERVER_VIP} --token XXXXXX \\
       --discovery-token-ca-cert-hash sha256:XXXXXXXX \\
       --control-plane --certificate-key XXXXXXXXX" \\
