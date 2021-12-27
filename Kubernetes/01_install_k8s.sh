@@ -1,16 +1,27 @@
-#!/bin/sh
+#!/bin/bash
 
 # kubernetes v1.23
-
 # 최소 사양: 2cpu 2gb, 유일한 hostname
-
 # docker 가 설치되어 있다고 가정하여 진행
+# master, worker node 모두 설치
 
-# master, worker node 모두 설치하는 스크립트
+# 방화벽 포트 해제 (master, worker)
+# https://kubernetes.io/docs/reference/ports-and-protocols/
+K8S_VERSION="1.23.1-00"
+
+sudo ufw allow ssh
+sudo ufw allow 6444/tcp  # keepalived
+sudo ufw allow 6443/tcp  # apiserver
+sudo ufw allow 2379:2380/tcp  # etcd
+sudo ufw allow 10250/tcp  # kubelet
+sudo ufw allow 10259/tcp  # scheduler
+sudo ufw allow 10257/tcp  # controller-manager
+sudo ufw allow 30000:32767/tcp  # NodePort services
+sudo ufw --force enable
 
 
 # swap disable
-sudo swapoff -a && sed -i '/swap/s/^/#/' /etc/fstab
+sudo swapoff -a && sudo sed -i '/swap/s/^/#/' /etc/fstab
 
 # Letting iptables see bridged traffic 
 cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
@@ -33,7 +44,7 @@ sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://pack
 echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
 
 sudo apt-get update
-sudo apt-get install -y kubelet kubeadm kubectl
+sudo apt-get install -y kubelet=${K8S_VERSION} kubeadm=${K8S_VERSION} kubectl=${K8S_VERSION}
 sudo apt-mark hold kubelet kubeadm kubectl
 
 
@@ -46,34 +57,10 @@ cat <<EOF | sudo tee /etc/docker/daemon.json
     "exec-opts": ["native.cgroupdriver=systemd"]
 }
 EOF
+
 sudo systemctl daemon-reload
 sudo systemctl restart docker
 sudo systemctl restart kubelet
 
-
-source <(kubectl completion bash) # setup autocomplete in bash into the current shell, bash-completion package should be installed first.
-source <(kubeadm completion bash)
-echo "source <(kubectl completion bash)" >> ~/.bashrc # add autocomplete permanently to your bash shell.
-echo "source <(kubeadm completion bash)" >> ~/.bashrc # add autocomplete permanently to your bash shell.
-
-
-# 설치 이후에..
-# 0) ssh-key 설정(masters, workers)
-
-
-# 1) master node에 kubeadm init 수행
-# sudo kubeadm init
-
-
-# 2) master node에 CNI 설치
-## Installing a Pod network add-on
-## Calico Networks: https://projectcalico.docs.tigera.io/getting-started/kubernetes/self-managed-onprem/onpremises
-# curl https://docs.projectcalico.org/manifests/calico.yaml -O
-# kubectl apply -f calico.yaml
-
-
-# 3) Join worker node
-
-
-# 4) HA 구성
-# https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/
+echo "source <(kubectl completion bash)" >> ~/.bashrc
+echo "source <(kubeadm completion bash)" >> ~/.bashrc
