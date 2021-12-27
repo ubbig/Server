@@ -17,6 +17,11 @@ sudo ufw allow 10250/tcp  # kubelet
 sudo ufw allow 10259/tcp  # scheduler
 sudo ufw allow 10257/tcp  # controller-manager
 sudo ufw allow 30000:32767/tcp  # NodePort services
+sudo ufw allow 8080:8081/tcp # ceph
+sudo ufw allow 9283/tcp # ceph
+sudo ufw allow 8443/tcp # ceph
+sudo ufw allow 6789/tcp # ceph
+sudo ufw allow 3300/tcp # ceph
 sudo ufw --force enable
 
 
@@ -64,3 +69,6 @@ sudo systemctl restart kubelet
 
 echo "source <(kubectl completion bash)" >> ~/.bashrc
 echo "source <(kubeadm completion bash)" >> ~/.bashrc
+
+# for ceph
+sudo apt-get install -y lvm2
