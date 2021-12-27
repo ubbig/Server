@@ -8,7 +8,6 @@
 # 기본  설정은  master1, master2, master3
 
 HOSTNAME=`hostname -s`
-HOSTNAME="master2"
 
 # keepalived 설정
 # INTERFACE:            네트워크 인터페이스 이름 (예: eth0)
