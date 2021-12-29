@@ -17,19 +17,19 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/mast
 # kubectl get pod -n kube-system | grep kube-proxy | awk '{system("kubectl delete pod "$1" -n kube-system")}'
 # # kube-proxy 로그 확인
 # kubectl logs -n kube-system <pod name>
-# # (확인필요) kube-proxy iptables mode에서 사용했던 Chain 삭제
-# iptables --policy INPUT   ACCEPT
-# iptables --policy OUTPUT  ACCEPT
-# iptables --policy FORWARD ACCEPT
-# iptables -Z # zero counters
-# iptables -F # flush (delete) rules
-# iptables -X # delete all extra chains
-# iptables -t nat -F
-# iptables -t nat -X
-# iptables -t mangle -F
-# iptables -t mangle -X
-# iptables -t raw -F
-# iptables -t raw -X
+# # kube-proxy iptables mode에서 사용했던 Chain 삭제를 위해 iptables 초기화
+iptables --policy INPUT   ACCEPT
+iptables --policy OUTPUT  ACCEPT
+iptables --policy FORWARD ACCEPT
+iptables -Z # zero counters
+iptables -F # flush (delete) rules
+iptables -X # delete all extra chains
+iptables -t nat -F
+iptables -t nat -X
+iptables -t mangle -F
+iptables -t mangle -X
+iptables -t raw -F
+iptables -t raw -X
 
 
 # MetalLB 설치
