@@ -22,6 +22,7 @@ sudo ufw allow 9283/tcp # ceph
 sudo ufw allow 8443/tcp # ceph
 sudo ufw allow 6789/tcp # ceph
 sudo ufw allow 3300/tcp # ceph
+sudo ufw allow 7946/tcp # MetalLB
 sudo ufw --force enable
 
 
@@ -70,5 +71,8 @@ sudo systemctl restart kubelet
 echo "source <(kubectl completion bash)" >> ~/.bashrc
 echo "source <(kubeadm completion bash)" >> ~/.bashrc
 
-# for ceph
+# for Ceph
 sudo apt-get install -y lvm2
+
+# for IPVS (MetalLB)
+sudo apt-get install -y ipvsadm
