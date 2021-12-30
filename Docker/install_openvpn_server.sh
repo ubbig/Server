@@ -28,3 +28,6 @@ docker run -v $OVPN_DATA:/etc/openvpn --log-driver=none --rm -it 192.168.100.7:5
 
 # vpn키생성하고 사용자에게 배포
 docker run -v $OVPN_DATA:/etc/openvpn --log-driver=none --rm 192.168.100.7:5000/selab_openvpn ovpn_getclient selabdev > selabdev.ovpn
+
+# 클라이언트의 고정 아이피 사용시 설정 추가
+#docker exec openvpn sh -c "cd /etc/openvpn; echo -e "client-config-dir ccd" >> openvpn.conf"
