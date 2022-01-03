@@ -30,4 +30,4 @@ sudo docker run -d --restart unless-stopped --name geoserver \
         --link postgis_db:postgis_db \
         -v geoserver_home:/opt/geoserver/data_dir \
         -p 8083:8080 \
-        kartoza/geoserver:2.19.2
+         192.168.100.7:5000/selab/geoserver
