@@ -38,23 +38,7 @@ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.11.0/manif
 
 
 # Configmap 배포
-## 주의: addresses 범위는 사용하지 않는 ip 범위로 해야 충돌이 나지 않는다.
-cat <<EOF | tee ./metallb_test.yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  namespace: metallb-system
-  name: config
-data:
-  config: |
-    address-pools:
-    - name: default
-      protocol: layer2
-      addresses:
-      - 192.168.100.28-192.168.100.39
-EOF
-
-kubectl apply -f metallb_test.yaml
+kubectl apply -f metallb-config.yaml
 
 
 # Troubleshooting:
