@@ -27,7 +27,7 @@ kubectl apply -f cluster.yaml
 # kubectl apply -f storageclass.yaml
 
 # Shared Filesystem
-## myfs 이름으로 CephFilesystem을 생성
+## cephfs 이름으로 CephFilesystem을 생성
 kubectl apply -f filesystem.yaml
 
 # Object Storage
@@ -66,3 +66,9 @@ kubectl -n rook-ceph apply -f toolbox.yaml
 
 # verify the rook-ceph-operator is in the `Running` state before proceeding
 kubectl -n rook-ceph get pod
+
+# Create CephFilesystem StorageClass
+kubectl apply -f cephfs-storageclass.yaml
+
+# Create CephBlockStorage StorageClass
+kubectl apply -f block-storageclass.yaml
