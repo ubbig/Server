@@ -67,8 +67,8 @@ kubectl -n rook-ceph apply -f toolbox.yaml
 # verify the rook-ceph-operator is in the `Running` state before proceeding
 kubectl -n rook-ceph get pod
 
-# Create CephFilesystem StorageClass
+# Create CephFilesystem StorageClass - name: rook-cephfs
 kubectl apply -f cephfs-storageclass.yaml
 
-# Create CephBlockStorage StorageClass
+# Create CephBlockStorage StorageClass - name: rook-ceph-block
 kubectl apply -f block-storageclass.yaml
