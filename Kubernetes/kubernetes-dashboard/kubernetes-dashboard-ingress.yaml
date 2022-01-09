@@ -9,12 +9,19 @@ metadata:
     kubernetes.io/ingress.class: nginx
 spec:
   rules:
-  - http:
-      paths:
-      - path: /dashboard(/|$)(.*)
-        pathType: Prefix
-        backend:
-          service:
-            name: kubernetes-dashboard
-            port:
-              number: 80
+    - http:
+        paths:
+        - path: /dashboard(/|$)(.*)
+          pathType: Prefix
+          backend:
+            service:
+              name: kubernetes-dashboard
+              port:
+                number: 80
+        - path: /ceph(/|$)(.*)
+          pathType: Prefix
+          backend:
+            service:
+              name: external-rook-ceph-mgr-dashboard
+              port:
+                number: 7000

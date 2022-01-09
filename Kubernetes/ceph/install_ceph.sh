@@ -17,8 +17,8 @@
     # sudo apt-get install -y lvm2
 
 # Ceph Cluster 설치
-git clone --single-branch --branch v1.8.1 https://github.com/rook/rook.git
-cd rook/deploy/examples
+# git clone --single-branch --branch v1.8.1 https://github.com/rook/rook.git
+# cd rook/deploy/examples
 
 kubectl apply -f crds.yaml -f common.yaml -f operator.yaml
 kubectl apply -f cluster.yaml
