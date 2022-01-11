@@ -2,7 +2,7 @@
 
 # https://hub.docker.com/_/postgres
 # 튜닝파라메터 설정 - https://wiki.postgresql.org/wiki/Tuning_Your_PostgreSQL_Server
-
+# postgis - https://postgis.net/workshops/postgis-intro/tuning.html
 docker pull postgres:13.0
 
 # prometheus exporter를 사용하려면 네트워크 브리지 해줘야 한다.
@@ -25,7 +25,11 @@ docker run -d --restart unless-stopped --name postgresql -p 5432:5432 \
   -c shared_buffers=10240MB \
   -c max_connections=2096 \
   -c wal_buffers=512MB \
-  -c effective_cache_size=20480MB
+  -c effective_cache_size=20480MB \
+  -c work_mem=32MB  \
+  -c maintenance_work_mem=128MB \
+  -c random_page_cost=1.0 \
+  -c checkpoint_segments=6
 
 
 #docker run -d --restart unless-stopped --name prometheus_exporter_pgsql \
