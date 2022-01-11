@@ -17,8 +17,8 @@
     # sudo apt-get install -y lvm2
 
 # Ceph Cluster 설치
-git clone --single-branch --branch v1.8.1 https://github.com/rook/rook.git
-cd rook/deploy/examples
+# git clone --single-branch --branch v1.8.1 https://github.com/rook/rook.git
+# cd rook/deploy/examples
 
 kubectl apply -f crds.yaml -f common.yaml -f operator.yaml
 kubectl apply -f cluster.yaml
@@ -27,7 +27,7 @@ kubectl apply -f cluster.yaml
 # kubectl apply -f storageclass.yaml
 
 # Shared Filesystem
-## myfs 이름으로 CephFilesystem을 생성
+## cephfs 이름으로 CephFilesystem을 생성
 kubectl apply -f filesystem.yaml
 
 # Object Storage
@@ -66,3 +66,9 @@ kubectl -n rook-ceph apply -f toolbox.yaml
 
 # verify the rook-ceph-operator is in the `Running` state before proceeding
 kubectl -n rook-ceph get pod
+
+# Create CephFilesystem StorageClass - name: rook-cephfs
+kubectl apply -f cephfs-storageclass.yaml
+
+# Create CephBlockStorage StorageClass - name: rook-ceph-block
+kubectl apply -f block-storageclass.yaml
