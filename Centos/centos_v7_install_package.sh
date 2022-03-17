@@ -34,5 +34,8 @@ sudo yum install -y git svn
 sudo yum install -y java-1.8.0-openjdk-demo.x86_64 java-11-openjdk-demo.x86_64
 
 sudo yum install -y ntp
-sudo systemctl enable ntp
-sudo systemctl restart ntp
+sudo systemctl enable ntpd
+sudo systemctl restart ntpd
+
+# timezone
+sudo timedatectl set-timezone Asia/Seoul
