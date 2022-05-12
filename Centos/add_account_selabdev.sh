@@ -6,6 +6,6 @@ usermod -aG wheel selabdev
 
 # copy ssh key
 su - selabdev
-scp selabdev@203.236.196.189:/.ssh .
-scp selabdev@203.236.196.189:~/.ssh/* ~/.ssh
+scp selabdev@192.168.100.2:/.ssh .
+scp selabdev@192.168.100.2:~/.ssh/* ~/.ssh
 
