@@ -35,4 +35,6 @@ sudo yum install -y java-1.8.0-openjdk-demo.x86_64 java-11-openjdk-demo.x86_64
 
 sudo yum install -y ntp
 sudo systemctl enable ntp
+#if No such file or directory
+# ntp -> ntpd
 sudo systemctl restart ntp
