@@ -1,15 +1,11 @@
 ## 1. Hp server BIOS setting
- remove secure boot
- 
- remove fast boot
- 
+ remove secure boot\
+ remove fast boot\
  change  UEFI storage setting as AHCI 
 
 ## 2. ubuntu network Setting
-sudo apt udpate
-
-sudo apt install net-tools
-
+sudo apt udpate\
+sudo apt install net-tools\
 sudo vi /etc/netplan/**.config
     network:
       ethernets:
@@ -23,8 +19,6 @@ sudo vi /etc/netplan/**.config
             - to: default
               via : 192.168.0.1
 
-sudo netplan apply
-
-sudo systemctl status ssh
-
+sudo netplan apply\
+sudo systemctl status ssh\
 sudo ufw allow ssh
