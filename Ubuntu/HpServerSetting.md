@@ -1,6 +1,8 @@
 ## 1. Hp server BIOS setting
  remove secure boot
+ 
  remove fast boot
+ 
  change  UEFI storage setting as AHCI 
 
 ## 2. ubuntu network Setting
