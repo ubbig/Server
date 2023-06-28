@@ -7,6 +7,7 @@
 sudo apt udpate\
 sudo apt install net-tools\
 sudo vi /etc/netplan/**.config
+
     network:
       ethernets:
         eno1:
