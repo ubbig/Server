@@ -1,10 +1,10 @@
 ## 1. Hp server BIOS setting
- remove secure boot\
- remove fast boot\
- change  UEFI storage setting as AHCI 
+ Security -> remove secure boot\
+ Advance -> system option -> remove fast boot\
+ Advance -> booting option -> change  UEFI storage setting as AHCI 
 
-## 2. ubuntu network Setting
-sudo apt udpate\
+## 2. Ubuntu 22.04 network Setting
+sudo apt update\
 sudo apt install net-tools\
 sudo vi /etc/netplan/**.config
 
