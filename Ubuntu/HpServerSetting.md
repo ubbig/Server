@@ -5,8 +5,13 @@
 - F2 연타
 - BIOS 설정 > Advanced tab > Boot Options > UEFI Boot Order > Windows Boot Manager를 내리기 > USB: 가장 위로 올리기 > 저장 
 
+## 2. Ubuntu Server name Setting
 
-## 2. Ubuntu 22.04 network Setting
+- name : selab
+- name server : hostname
+- user name : selabdev
+
+## 3. Ubuntu 22.04 network Setting
 
 - `sudo apt update`
 - `sudo apt install net-tools`
