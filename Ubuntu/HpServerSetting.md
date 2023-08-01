@@ -2,9 +2,8 @@
 
 > HP Z2 SFF G9 워크스테이션의 Ubuntu 22.04 를 설치할 때, Ubuntu에서 DISK를 인식하지 못하는 이슈가 있어 아래와 같은 BIOS 설정이 필요함
 
-- Security -> remove secure boot
-- Advance -> system option -> remove fast boot
-- Advance -> booting option -> change  UEFI storage setting as AHCI 
+- F2 연타
+- BIOS 설정 > Advanced tab > Boot Options > UEFI Boot Order > Windows Boot Manager를 내리기 > USB: 가장 위로 올리기 > 저장 
 
 
 ## 2. Ubuntu 22.04 network Setting
