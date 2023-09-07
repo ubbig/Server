@@ -1,13 +1,11 @@
 # Hp Server CentOS 7 설정 가이드
 ## 1. 설치 환경
----
 
 * 모델명 :  `HP Z2 SFF G9 Workstation`
 * 운영체제 : `CentOS 7.x`
 
 
 ## 2. Booting USB 생성
----
 
  1) [Rufus 다운로드](https://rufus.ie/ko/)
  2) [centos ISO 다운로드](http://mirror.kakao.com/centos/)
@@ -19,12 +17,10 @@
      - 파일시스템 : FAT32(기본값)
 
 ## 3. BIOS 설정
----
 재부팅 후 로고가 나왔을 때 <U>*F3*</U> 또는 <U>*F10*</U> 클릭 (*왼쪽 하단에 선태한 옵션이 텍스트로 표출됨*)
  
 
 ### 3.1) BIOS 메뉴 접속 및 설정
----
 ### F3 클릭
 ```
 1. Drivers -> Network Device List
@@ -54,8 +50,6 @@
 ```
 
 ## 4. Centos 설치
----
-
 1) 파티션 생성
 2) 소프트웨어 선택
    * <U>최소설치의 기본 툴은 선택하는게 좋음</U>
@@ -65,7 +59,6 @@
 
 
 ## 5. Network 설정
----
 ### 네트워크 설정 문제시 수행 방법 (네트워크 드라이브 설치 문제)
 * Centos를 설치 후 네트워크 연결이 되지 않고 /etc/sysconfig/network-script/ 아래 ifcfg-lo 파일만 존재할 때 수행
 * [I219-LM 네트워크 드라이브 다운로드](https://www.intel.com/content/www/us/en/download/14611/15817/intel-network-adapter-driver-for-pcie-intel-gigabit-ethernet-network-connections-under-linux-final-release.html?product=71307)
@@ -82,7 +75,7 @@ modprobe e1000e
 1.ifconfig
 2.ping 8.8.8.8
 ```
----
+
 ### 고정 IP 설정
 * ipconfig 로 새로 생성된 Network Interface Name (eno1)으로 파일을 생성
 * ifcfg-eno1 생성
@@ -115,7 +108,6 @@ systemctl restart network
 ```
 
 ## 6. 기타
----
 ### 랜카드 정보 확인
 ```
  lspci | grep -i Ethernet
