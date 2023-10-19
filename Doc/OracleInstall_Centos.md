@@ -4,11 +4,24 @@
 * 버전 : 19c Oracle Enterprise Edition, 19c Oracle Standard Edition
 * GUI 환경 필요
 
+
+
 ## 2. 설치
 다운로드 위치
 ```
 https://www.oracle.com/database/technologies/oracle-database-software-downloads.html
 Oracle Database 19c for Linux x86-64
+```
+
+패키지 설치
+```
+yum -y install compat-libcap1
+yum -y install compat-libstdc++-33
+yum -y install libstdc++-devel
+yum -y install gcc 
+yum -y install gcc-c++
+yum -y install ksh
+yum -y install libaio-devel
 ```
 
 ## 3. 방화벽 해제
@@ -42,6 +55,30 @@ export CLASSPATH=$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib
 ```
 source ~/.bash_profile
 ```
+
+4) 커널 파라메타 수정
+```
+vi /etc/sysctl.conf
+```
+```
+#기본값 설정
+fs.file-max = 6815744
+kernel.sem = 250 32000 100 128
+kernel.shmmni = 4096
+kernel.shmall = 1073741824
+kernel.shmmax = 4398046511104
+kernel.panic_on_oops = 1
+net.core.rmem_default = 262144
+net.core.rmem_max = 4194304
+net.core.wmem_default = 262144
+net.core.wmem_max = 1048576
+net.ipv4.conf.all.rp_filter = 2
+net.ipv4.conf.default.rp_filter = 2
+fs.aio-max-nr = 1048576
+net.ipv4.ip_local_port_range = 9000 65500
+
+```
+
 
 ## 6. 다운로드 위치 폴더 생성
 export에 설정한 Oracle_HOME으로 지정될 위치
@@ -129,4 +166,3 @@ lsnrctl services
 4. 로컬 및 외부 접속 테스트가 가능하나 외부에서 외부 접속 테스트로 접속이 되지 않을 때
     - 방화벽 확인
 
-    
